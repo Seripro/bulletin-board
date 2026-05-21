@@ -1,5 +1,6 @@
 "use client";
 
+import { Header } from "@/components/Header";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -17,5 +18,10 @@ export default function RootLayout({
     }
   }, [loading, session, router]);
   if (loading) return <p>loading...</p>;
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 }
