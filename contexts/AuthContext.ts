@@ -6,6 +6,7 @@ import { createContext } from "react";
 type ValueType = {
   session: Session | null;
   userId: string | null;
+  loading: boolean;
   signInWithPassword: (
     email: string,
     password: string,

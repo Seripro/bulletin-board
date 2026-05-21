@@ -12,20 +12,29 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
-    const fetchSession = async () => {
-      try {
-        const { data } = await supabase.auth.getSession();
-        setSession(data.session);
-      } catch (e) {
-        console.log(e);
-      }
+    const init = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setLoading(false);
     };
-    fetchSession();
-  });
+
+    init();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setSession(nextSession);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
   const value = {
     session,
     userId: session?.user.id ?? null,
+    loading,
     signInWithPassword,
     signUpWithPassword,
     signOut,
