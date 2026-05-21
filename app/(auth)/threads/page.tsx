@@ -2,11 +2,15 @@ import { ThreadsType } from "@/types/threads";
 import { UserType } from "@/types/user";
 
 export default async function Threads() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/threads`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/threads`, {
+    cache: "no-store",
+  });
   const threads: ThreadsType[] = await res.json();
   const userRes = await Promise.all(
     threads.map((thread) =>
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users/${thread.user_id}`),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users/${thread.user_id}`, {
+        cache: "no-store",
+      }),
     ),
   );
   const users: UserType[] = await Promise.all(
