@@ -1,32 +1,18 @@
-"use client";
-
 import { ThreadsType } from "@/types/threads";
 import { UserType } from "@/types/user";
-import { useEffect, useState } from "react";
 
-const Threads = () => {
-  const [threads, setThreads] = useState<ThreadsType[]>([]);
-  const [users, setUsers] = useState<UserType[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("/api/threads", { cache: "no-store" });
-        const threads: ThreadsType[] = await res.json();
-        setThreads(threads);
-        const userRes = await Promise.all(
-          threads.map((thread) => fetch(`/api/users/${thread.user_id}`)),
-        );
-        const users: UserType[] = await Promise.all(
-          userRes.map(async (res) => res.json()),
-        );
-        console.log(users);
-        setUsers(users);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchData();
-  }, []);
+export default async function Threads() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/threads`);
+  const threads: ThreadsType[] = await res.json();
+  const userRes = await Promise.all(
+    threads.map((thread) =>
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users/${thread.user_id}`),
+    ),
+  );
+  const users: UserType[] = await Promise.all(
+    userRes.map(async (res) => res.json()),
+  );
+
   return (
     <div>
       <p>Threads</p>
@@ -43,6 +29,4 @@ const Threads = () => {
       })}
     </div>
   );
-};
-
-export default Threads;
+}
