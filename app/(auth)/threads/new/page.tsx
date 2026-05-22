@@ -1,6 +1,8 @@
 "use client";
 
 import { supabase } from "@/utils/supabase";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 type FormValues = {
@@ -14,10 +16,13 @@ export default function NewThreads() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
   const onSubmit = async (FormData: FormValues) => {
     console.log("登録完了");
     console.log("data: ", FormData);
     try {
+      setLoading(true);
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token;
       const res = await fetch("/api/threads/new", {
@@ -30,6 +35,10 @@ export default function NewThreads() {
       });
       const { message } = await res.json();
       console.log(message);
+      if (message === "登録完了しました") {
+        setLoading(false);
+        router.push("/threads");
+      }
     } catch (e) {
       console.log(e);
     }
