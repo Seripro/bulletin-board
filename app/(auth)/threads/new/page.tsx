@@ -43,7 +43,13 @@ export default function NewThreads() {
           <input
             type="text"
             id="title"
-            {...register("title", { required: "タイトルは必須です" })}
+            {...register("title", {
+              required: "タイトルは必須です",
+              maxLength: {
+                value: 30,
+                message: "タイトルは30文字以内で入力してください",
+              },
+            })}
             placeholder="タイトルを入力してください"
           />
           {errors.title && (
@@ -55,7 +61,13 @@ export default function NewThreads() {
           <input
             type="text"
             id="content"
-            {...register("content", { required: "本文は必須です" })}
+            {...register("content", {
+              required: "本文は必須です",
+              maxLength: {
+                value: 100,
+                message: "本文は100文字以内で入力してください",
+              },
+            })}
             placeholder="本文を入力してください"
           />
           {errors.content && (
