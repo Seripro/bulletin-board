@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/utils/supabase";
 import { useForm } from "react-hook-form";
 
 type FormValues = {
@@ -14,18 +14,22 @@ export default function NewThreads() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const { userId } = useAuth();
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (FormData: FormValues) => {
     console.log("登録完了");
-    console.log("data: ", data);
+    console.log("data: ", FormData);
     try {
-      await fetch("/api/threads/new", {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      const res = await fetch("/api/threads/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...data, user_id: userId }),
+        body: JSON.stringify(FormData), // user_id は送らない
       });
+      const { message } = await res.json();
+      console.log(message);
     } catch (e) {
       console.log(e);
     }
