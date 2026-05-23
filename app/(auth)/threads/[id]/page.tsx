@@ -1,6 +1,7 @@
-import { supabase } from "@/utils/supabase";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import CommentForm from "./CommentForm";
+import { createClient } from "@/utils/supabase/server";
+import { deleteComment } from "./deleteComment";
 
 type Props = {
   params: { id: string }; // URLの /threads/abc123 → id = "abc123"
@@ -8,6 +9,12 @@ type Props = {
 
 export default async function ThreadsDetail({ params }: Props) {
   const { id } = await params;
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  console.log("user");
+  console.log(user);
   const { data: thread } = await supabase
     .from("threads")
     .select("*")
@@ -37,7 +44,14 @@ export default async function ThreadsDetail({ params }: Props) {
       {comments?.map((comment) => {
         return (
           <div key={comment.id}>
-            <p>{comment.content}</p>
+            <div>
+              <p>{comment.content}</p>
+              {user?.id === comment.user_id ? (
+                <form action={deleteComment.bind(null, comment.id, id)}>
+                  <button type="submit">削除</button>
+                </form>
+              ) : null}
+            </div>
             <p>
               {users.filter((user) => user?.id == comment.user_id)[0]?.name ??
                 "名無し"}
