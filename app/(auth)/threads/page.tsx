@@ -1,5 +1,6 @@
 import { ThreadsType } from "@/types/threads";
 import { UserType } from "@/types/user";
+import Link from "next/link";
 
 export default async function Threads() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/threads`, {
@@ -23,12 +24,12 @@ export default async function Threads() {
       {threads?.map((thread) => {
         const user = users.filter((user) => user.id === thread.user_id)[0];
         return (
-          <div key={thread.id}>
+          <Link href={`/threads/${thread.id}`} key={thread.id}>
             <p>{user?.name ?? "名無し"}</p>
             <p>{thread.title}</p>
             <p>{thread.content}</p>
             <p>{thread.created_at}</p>
-          </div>
+          </Link>
         );
       })}
     </div>
