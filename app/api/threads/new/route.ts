@@ -1,7 +1,8 @@
-import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
 
 export async function POST(request: NextRequest) {
+  const supabase = await createClient();
   const auth = request.headers.get("authorization");
   const token = auth?.replace("Bearer ", "");
   if (!token)
