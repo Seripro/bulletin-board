@@ -1,22 +1,28 @@
-import { ThreadsType } from "@/types/threads";
+import { createClient } from "@/utils/supabase/server";
 import { UserType } from "@/types/user";
 import Link from "next/link";
 
 export default async function Threads() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/threads`, {
-    cache: "no-store",
-  });
-  const threads: ThreadsType[] = await res.json();
-  const userRes = await Promise.all(
-    threads.map((thread) =>
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users/${thread.user_id}`, {
-        cache: "no-store",
-      }),
-    ),
-  );
-  const users: UserType[] = await Promise.all(
-    userRes.map(async (res) => res.json()),
-  );
+  const supabase = await createClient();
+
+  const { data: threadsData, error: threadsError } = await supabase
+    .from("threads")
+    .select("*");
+  if (threadsError) {
+    throw threadsError;
+  }
+
+  const threads = threadsData ?? [];
+  const userIds = [...new Set(threads.map((thread) => thread.user_id))];
+  const { data: usersData, error: usersError } = await supabase
+    .from("profiles")
+    .select("*")
+    .in("id", userIds);
+  if (usersError) {
+    throw usersError;
+  }
+
+  const users: UserType[] = usersData ?? [];
 
   return (
     <div>
