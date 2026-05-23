@@ -1,9 +1,10 @@
 // app/threads/[id]/CommentForm.tsx　← クライアントコンポーネント
 "use client";
 
-import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+const supabase = createClient();
 
 export default function CommentForm({ threadId }: { threadId: string }) {
   const [content, setContent] = useState("");

@@ -1,9 +1,10 @@
 "use client";
 
-import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { createClient } from "@/utils/supabase/client";
+const supabase = createClient();
 
 type FormValues = {
   title: string;
