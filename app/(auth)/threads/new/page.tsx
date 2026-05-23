@@ -43,6 +43,9 @@ export default function NewThreads() {
       console.log(e);
     }
   };
+
+  if (loading) return <p>loading...</p>;
+
   return (
     <div>
       <p>new threads</p>
