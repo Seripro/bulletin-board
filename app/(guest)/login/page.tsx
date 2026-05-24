@@ -29,10 +29,13 @@ const Login = () => {
     }
   };
   return (
-    <div>
-      <form className="auth-form" onSubmit={handleLogin}>
-        <label>
-          メールアドレス
+    <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+      <h1 className="mb-6 text-center text-xl font-bold">ログイン</h1>
+      <form className="space-y-4" onSubmit={handleLogin}>
+        <div>
+          <label className="mb-1.5 block text-sm font-medium">
+            メールアドレス
+          </label>
           <input
             type="email"
             value={email}
@@ -40,10 +43,13 @@ const Login = () => {
             placeholder="example@mail.com"
             autoComplete="email"
             required
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
-        </label>
-        <label>
-          パスワード
+        </div>
+        <div>
+          <label className="mb-1.5 block text-sm font-medium">
+            パスワード
+          </label>
           <input
             type="password"
             value={password}
@@ -51,16 +57,29 @@ const Login = () => {
             placeholder="8文字以上を推奨"
             autoComplete="current-password"
             required
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
-        </label>
+        </div>
 
-        {errorMessage ? <p className="auth-error">{errorMessage}</p> : null}
+        {errorMessage ? (
+          <p className="text-sm text-danger">{errorMessage}</p>
+        ) : null}
 
-        <button className="auth-button auth-button--primary" type="submit">
+        <button
+          className="w-full rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-hover cursor-pointer"
+          type="submit"
+        >
           ログイン
         </button>
       </form>
-      <Link href="/signup">新規登録はこちら</Link>
+      <p className="mt-4 text-center text-sm text-muted">
+        <Link
+          href="/signup"
+          className="text-primary hover:underline"
+        >
+          新規登録はこちら
+        </Link>
+      </p>
     </div>
   );
 };

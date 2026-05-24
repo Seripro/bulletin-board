@@ -1,4 +1,3 @@
-// app/threads/[id]/CommentForm.tsx　← クライアントコンポーネント
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -22,23 +21,38 @@ export default function CommentForm({ threadId }: { threadId: string }) {
     } else {
       await supabase.from("comments").insert({ thread_id: threadId, content });
       setContent("");
-      router.refresh(); // サーバーコンポーネントを再取得
+      router.refresh();
     }
     setLoading(false);
   };
 
-  if (loading) return <p>loading...</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center py-6">
+        <div className="h-6 w-6 animate-spin rounded-full border-3 border-primary border-t-transparent" />
+      </div>
+    );
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex gap-3">
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          placeholder="コメントを入力..."
+          rows={2}
+          className="flex-1 resize-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
-        <button type="submit">送信</button>
+        <button
+          type="submit"
+          className="self-end rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover cursor-pointer"
+        >
+          送信
+        </button>
       </form>
-      {error ? <p style={{ color: "red" }}>エラー：{error}</p> : null}
+      {error ? (
+        <p className="mt-2 text-sm text-danger">{error}</p>
+      ) : null}
     </div>
   );
 }

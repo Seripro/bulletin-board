@@ -17,11 +17,18 @@ export default function RootLayout({
       router.replace("/login");
     }
   }, [loading, session, router]);
-  if (loading) return <p>loading...</p>;
+  if (loading)
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    );
   return (
     <>
       <Header />
-      {children}
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
+        {children}
+      </main>
     </>
   );
 }
