@@ -1,5 +1,15 @@
-"use client";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return <p>ホーム</p>;
+export default async function RootPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    redirect("/threads");
+  } else {
+    redirect("/login");
+  }
 }
