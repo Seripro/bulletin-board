@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import CommentForm from "./CommentForm";
 import { createClient } from "@/utils/supabase/server";
 import { deleteComment } from "./deleteComment";
