@@ -10,10 +10,12 @@ const Signup = () => {
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email && password) {
       try {
+        setLoading(true);
         const error = await signUpWithPassword(email, password);
         if (error) {
           setErrorMessage(error);
@@ -22,11 +24,21 @@ const Signup = () => {
         }
       } catch (e) {
         console.log(e);
+      } finally {
+        setLoading(false);
       }
     } else {
       setErrorMessage("メールアドレス、パスワードを入力してください");
     }
   };
+
+  if (loading)
+    return (
+      <div className="flex items-center justify-center py-6">
+        <div className="h-6 w-6 animate-spin rounded-full border-3 border-primary border-t-transparent" />
+      </div>
+    );
+
   return (
     <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
       <h1 className="mb-6 text-center text-xl font-bold">新規登録</h1>
@@ -46,9 +58,7 @@ const Signup = () => {
           />
         </div>
         <div>
-          <label className="mb-1.5 block text-sm font-medium">
-            パスワード
-          </label>
+          <label className="mb-1.5 block text-sm font-medium">パスワード</label>
           <input
             type="password"
             value={password}
@@ -72,10 +82,7 @@ const Signup = () => {
         </button>
       </form>
       <p className="mt-4 text-center text-sm text-muted">
-        <Link
-          href="/login"
-          className="text-primary hover:underline"
-        >
+        <Link href="/login" className="text-primary hover:underline">
           ログインページはこちら
         </Link>
       </p>
