@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import { UserType } from "@/types/user";
-import Link from "next/link";
 import ThreadCard from "./ThreadCard";
 
 export default async function Threads() {
