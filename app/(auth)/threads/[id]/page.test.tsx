@@ -1,13 +1,6 @@
-import {
-  fireEvent,
-  getByText,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { createClient } from "@/utils/supabase/server";
-import { useRouter } from "next/navigation";
 import ThreadsDetail from "./page";
 
 let commentsMockData = [
