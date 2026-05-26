@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createClient } from "@/utils/supabase/client";
-const supabase = createClient();
 
 type FormValues = {
   title: string;
@@ -20,6 +19,7 @@ export default function NewThreads() {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const onSubmit = async (FormData: FormValues) => {
+    const supabase = createClient();
     console.log("登録完了");
     console.log("data: ", FormData);
     try {
@@ -60,10 +60,7 @@ export default function NewThreads() {
         className="space-y-5 rounded-lg border border-border bg-card p-6"
       >
         <div>
-          <label
-            htmlFor="title"
-            className="mb-1.5 block text-sm font-medium"
-          >
+          <label htmlFor="title" className="mb-1.5 block text-sm font-medium">
             タイトル
           </label>
           <input
@@ -84,10 +81,7 @@ export default function NewThreads() {
           )}
         </div>
         <div>
-          <label
-            htmlFor="content"
-            className="mb-1.5 block text-sm font-medium"
-          >
+          <label htmlFor="content" className="mb-1.5 block text-sm font-medium">
             本文
           </label>
           <textarea
@@ -104,9 +98,7 @@ export default function NewThreads() {
             className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
           {errors.content && (
-            <p className="mt-1 text-sm text-danger">
-              {errors.content.message}
-            </p>
+            <p className="mt-1 text-sm text-danger">{errors.content.message}</p>
           )}
         </div>
         <button
