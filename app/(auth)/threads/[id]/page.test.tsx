@@ -162,7 +162,6 @@ describe("threads detail", () => {
     expect(screen.getByText("コメント (3)"));
   });
   it("自分のコメント以外には削除ボタンが表示されていない", () => {
-    screen.debug();
     const buttons = screen.getAllByText("削除");
     expect(buttons.length).toBe(1);
   });
