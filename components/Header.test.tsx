@@ -12,12 +12,8 @@ vi.mock("@/providers/AuthProvider", () => ({
       session: null,
       userId: null,
       loading: false,
-      signInWithPassword: vi.fn(async (email: string, password: string) => {
-        return null;
-      }),
-      signUpWithPassword: vi.fn(async (email: string, password: string) => {
-        return null;
-      }),
+      signInWithPassword: vi.fn(),
+      signUpWithPassword: vi.fn(),
       signOut: signOut,
     };
     return (
