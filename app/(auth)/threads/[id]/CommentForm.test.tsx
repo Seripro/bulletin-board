@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { vi, describe, it, expect, beforeEach, Mock } from "vitest";
+import { vi, describe, it, expect, beforeEach } from "vitest";
 import CommentForm from "./CommentForm";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
