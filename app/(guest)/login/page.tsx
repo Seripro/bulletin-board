@@ -21,7 +21,7 @@ const Login = () => {
         if (error) {
           setErrorMessage(error);
         } else {
-          router.push("/");
+          await router.push("/");
         }
       } catch (e) {
         console.log(e);
