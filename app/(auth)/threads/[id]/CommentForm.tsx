@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-const supabase = createClient();
 
 export default function CommentForm({ threadId }: { threadId: string }) {
   const [content, setContent] = useState("");
@@ -12,6 +11,7 @@ export default function CommentForm({ threadId }: { threadId: string }) {
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
+    const supabase = createClient();
     setLoading(true);
     e.preventDefault();
     if (!content || !content.trim()) {
@@ -50,9 +50,7 @@ export default function CommentForm({ threadId }: { threadId: string }) {
           送信
         </button>
       </form>
-      {error ? (
-        <p className="mt-2 text-sm text-danger">{error}</p>
-      ) : null}
+      {error ? <p className="mt-2 text-sm text-danger">{error}</p> : null}
     </div>
   );
 }
