@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "掲示板",
   description: "みんなの掲示板アプリ",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
