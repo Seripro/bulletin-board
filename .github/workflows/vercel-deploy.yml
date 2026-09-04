@@ -30,7 +30,7 @@ jobs:
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
 
       - name: Deploy to Vercel
-        run: npx vercel --prod --token ${{secrets.VERCEL_TOKEN}}
+        run: npx vercel --prod --token ${{secrets.VERCEL_TOKEN}} --yes
         env:
           orgId: ${{ secrets.VERCEL_TEAM_ID }}
           projectId: ${{ secrets.VERCEL_PROJECT_ID }}
