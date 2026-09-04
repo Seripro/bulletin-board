@@ -30,8 +30,8 @@ jobs:
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
 
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25 # Vercelにデプロイする。
-        with: # with以降に必要なパラメータを渡す
+        run: vercel --prod
+        env: # with以降に必要なパラメータを渡す
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_TEAM_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
