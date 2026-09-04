@@ -24,14 +24,19 @@ jobs:
       - name: Install dependencies
         run: npm install # 依存関係をインストール
 
-      - name: Build Next.js project
-        run: npm run build # ビルドする
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+      # - name: Build Next.js project
+      #   run: npm run build # ビルドする
+      #   env:
+      #     NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      #     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
 
       - name: Deploy to Vercel
-        run: npx vercel --prod --token ${{secrets.VERCEL_TOKEN}} --yes
+        run: |
+          npx vercel --prod \
+          --token ${{ secrets.VERCEL_TOKEN }} \
+          --yes \
+          --build-env NEXT_PUBLIC_SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
+          --build-env NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
         env:
           orgId: ${{ secrets.VERCEL_TEAM_ID }}
           projectId: ${{ secrets.VERCEL_PROJECT_ID }}
