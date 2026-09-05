@@ -9,7 +9,7 @@ on:
 
 # ジョブを定義
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
           node-version: "20" # nodeのバージョン20を指定
 
       - name: Install dependencies
-        run: npm install # 依存関係をインストール
+        run: npm ci
 
       - name: Deploy to Vercel
         run: |
@@ -31,6 +31,6 @@ jobs:
           --yes \
           --build-env NEXT_PUBLIC_SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
           --build-env NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
-        env:
-          orgId: ${{ secrets.VERCEL_TEAM_ID }}
-          projectId: ${{ secrets.VERCEL_PROJECT_ID }}
+        # env:
+        #   orgId: ${{ secrets.VERCEL_TEAM_ID }}
+        #   projectId: ${{ secrets.VERCEL_PROJECT_ID }}
