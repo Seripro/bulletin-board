@@ -23,15 +23,37 @@ https://bulletin-board-rosy-xi.vercel.app/
 
 - Next.js
 - TypeScript
+- Vercel
 - Supabase
   - Authentication
-  - Database
+  - PostgreSQL Database
 - React Hook Form
 - Vitest
 - React Testing Library
 - ESLint
 - Tailwind CSS
 - GitHub Actions（CI/CD）
+
+## アーキテクチャ
+
+![Bulletin Board のアーキテクチャ図](./docs/architecture/bulletin-board-architecture.png)
+
+利用者はブラウザから HTTPS 経由で、Vercel にデプロイされた Next.js アプリへアクセスします。アプリは App Router を利用し、表示内容に応じて SSR と CSR を使い分けています。
+
+| コンポーネント | 役割 |
+| --- | --- |
+| Vercel / Next.js アプリ | 画面表示、認証状態に応じた遷移制御、スレッド・コメント機能を提供します。 |
+| Route Handlers / Server Actions | API リクエストやサーバー側の更新処理を受け付け、Supabase と連携します。 |
+| Supabase Authentication | メール認証とセッション管理を行います。 |
+| Supabase PostgreSQL | `threads`、`comments`、`profiles` のデータを保存します。 |
+| GitHub Actions | push 時にテストを実行し、`main` ブランチへの push を契機に Vercel へ本番デプロイします。 |
+
+### データフロー
+
+1. ブラウザから Next.js アプリへ HTTPS でアクセスします。
+2. ログイン・セッションの管理は Supabase Authentication が担います。
+3. スレッドやコメントの取得・更新は、Next.js のサーバー側処理を通じて Supabase PostgreSQL に読み書きします。
+4. GitHub Actions がテストを実行し、`main` ブランチへの変更を Vercel の本番環境へデプロイします。
 
 ## ディレクトリ構成
 
